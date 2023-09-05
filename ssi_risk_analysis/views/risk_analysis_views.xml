@@ -104,7 +104,7 @@
                                 name="manual_result_id"
                                 domain="[('id','in',allowed_result_ids)]"
                                 string="Manual"
-                                attrs="{'required': [('result_computation_method','=','manual')]}"
+                                attrs="{'required': [('result_computation_method','=','manual'),('state','=','open')]}"
                             />
                         <field name="automatic_result_id" string="Automatic" />
                         <field name="result_id" string="Final" />
