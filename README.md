@@ -18,7 +18,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[ssi_risk_analysis](ssi_risk_analysis/) | 14.0.1.0.0 |  | Risk Analysis
+[ssi_risk_analysis](ssi_risk_analysis/) | 14.0.1.1.0 |  | Risk Analysis
 [ssi_risk_management](ssi_risk_management/) | 14.0.1.0.0 |  | Risk Managemenet
 
 [//]: # (end addons)
