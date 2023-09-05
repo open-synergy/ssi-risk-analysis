@@ -23,7 +23,7 @@ class RiskAnalysisWorksheet(models.Model):
     _approval_state = "confirm"
     _after_approved_method = "action_done"
 
-    _custom_info_create_page = True
+    _custom_info_create_page = False
 
     # Attributes related to add element on view automatically
     _automatically_insert_view_element = True
