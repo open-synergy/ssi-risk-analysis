@@ -13,4 +13,5 @@ from . import (
     risk_analysis_item,
     risk_analysis_worksheet_type,
     risk_analysis_worksheet,
+    mixin_risk_analysis,
 )
