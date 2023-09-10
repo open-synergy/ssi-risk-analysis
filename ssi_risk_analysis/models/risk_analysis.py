@@ -105,6 +105,23 @@ class RiskAnalysis(models.Model):
             ],
         },
     )
+    reviewer_id = fields.Many2one(
+        string="Reviewer",
+        comodel_name="res.users",
+        required=True,
+        readonly=True,
+        states={
+            "draft": [
+                ("readonly", False),
+            ],
+        },
+    )
+    work_hour = fields.Float(
+        string="Work Hours",
+    )
+    reviewer_work_hour = fields.Float(
+        string="Reviewer Work Hours",
+    )
     item_ids = fields.One2many(
         string="Risk Items",
         comodel_name="risk_analysis.item",

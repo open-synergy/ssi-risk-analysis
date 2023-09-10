@@ -84,6 +84,23 @@ class RiskAnalysisWorksheet(models.Model):
             ],
         },
     )
+    reviewer_id = fields.Many2one(
+        string="Reviewer",
+        comodel_name="res.users",
+        required=True,
+        readonly=True,
+        states={
+            "draft": [
+                ("readonly", False),
+            ],
+        },
+    )
+    work_hour = fields.Float(
+        string="Work Hours",
+    )
+    reviewer_work_hour = fields.Float(
+        string="Reviewer Work Hours",
+    )
     date = fields.Date(
         string="Date",
         required=True,

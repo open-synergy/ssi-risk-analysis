@@ -35,6 +35,9 @@
                 <field name="automatic_result_id" optional="hide" />
                 <field name="result_id" string="Result" />
             </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="reviewer_id" widget="many2one_avatar" />
+            </xpath>
         </data>
     </field>
 </record>
@@ -47,10 +50,13 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//field[@name='user_id']" position="after">
-                <field name="risk_analysis_id" />
-                <field name="partner_id" />
+                <field name="reviewer_id" widget="many2one_avatar" />
+                <field name="work_hour" widget="float_time" />
+                <field name="reviewer_work_hour" widget="float_time" />
             </xpath>
             <xpath expr="//group[@name='header_right']" position="inside">
+                <field name="risk_analysis_id" />
+                <field name="partner_id" />
                 <field name="date" />
                 <field name="allowed_item_ids" widget="many2many_tags" invisible="1" />
                 <field name="item_id" domain="[('id','in',allowed_item_ids)]" />
