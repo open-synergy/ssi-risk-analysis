@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0-standalone.html).
 
 from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class RiskAnalysisWorksheet(models.Model):
@@ -16,6 +17,7 @@ class RiskAnalysisWorksheet(models.Model):
         "mixin.transaction_cancel",
         "mixin.transaction_terminate",
         "mixin.custom_info",
+        "mixin.localdict",
     ]
 
     _approval_from_state = "open"
@@ -239,14 +241,21 @@ class RiskAnalysisWorksheet(models.Model):
     @api.depends(
         "manual_result_id",
         "result_computation_method",
+        "type_id",
     )
     def _compute_result_id(self):
         for record in self:
-            record.result_id = False
-            if record.result_computation_method == "manual":
-                record.result_id = record.manual_result_id
-            elif record.result_computation_method == "auto":
-                record.result_id = record.manual_result_id
+            automatic_result = final_result = False
+
+            automatic_result = record._get_automatic_result()
+
+            if self.result_computation_method == "manual":
+                final_result = self.manual_result_id
+            elif self.result_computation_method == "auto":
+                final_result = automatic_result
+
+            record.automatic_result_id = automatic_result
+            record.result_id = final_result
 
     @api.onchange("risk_analysis_id")
     def onchange_item_id(self):
@@ -282,3 +291,18 @@ class RiskAnalysisWorksheet(models.Model):
         ]
         res += policy_field
         return res
+
+    def _get_automatic_result(self):
+        self.ensure_one()
+        localdict = self._get_default_localdict()
+        try:
+            safe_eval(
+                self.type_id.result_python_code,
+                localdict,
+                mode="exec",
+                nocopy=True,
+            )
+            result = localdict["result"]
+        except Exception:
+            result = False
+        return result

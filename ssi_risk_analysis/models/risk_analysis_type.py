@@ -26,6 +26,11 @@ class RiskAnalysisType(models.Model):
         compute="_compute_allowed_result_ids",
         store=False,
     )
+    result_python_code = fields.Text(
+        string="Python Code for Result Computation",
+        default="result = False",
+        required=True,
+    )
 
     def _compute_allowed_result_ids(self):
         for record in self:
