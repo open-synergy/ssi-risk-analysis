@@ -36,6 +36,11 @@ class RiskAnalysisWorkSheetType(models.Model):
         string="Model Technical Name",
         related="model_id.model",
     )
+    result_python_code = fields.Text(
+        string="Python Code for Result Computation",
+        default="result = False",
+        required=True,
+    )
 
     @api.onchange(
         "ttype",

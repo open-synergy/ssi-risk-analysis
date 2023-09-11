@@ -43,7 +43,7 @@
                     </field>
                 </page>
                 <page name="result" string="Results">
-                    <group name="result" colspan="4" col="2">
+                    <group name="result_1" colspan="4" col="2">
                         <field name="allowed_result_ids" widget="many2many_tags" />
                     </group>
                     <field name="result_ids">
@@ -53,6 +53,19 @@
                             <field name="quantitative_value" />
                         </tree>
                     </field>
+                    <group
+                            name="result_2"
+                            colspan="2"
+                            col="2"
+                            string="Python Code for Result Computation"
+                        >
+                        <field
+                                name="result_python_code"
+                                widget="ace"
+                                colspan="2"
+                                nolabel="1"
+                            />
+                    </group>
                 </page>
             </xpath>
         </data>

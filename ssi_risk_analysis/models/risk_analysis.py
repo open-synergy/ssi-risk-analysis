@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class RiskAnalysis(models.Model):
@@ -14,6 +15,7 @@ class RiskAnalysis(models.Model):
         "mixin.transaction_done",
         "mixin.transaction_cancel",
         "mixin.transaction_terminate",
+        "mixin.localdict",
     ]
     _description = "Risk Analysis"
 
@@ -208,13 +210,24 @@ class RiskAnalysis(models.Model):
     @api.depends(
         "manual_result_id",
         "result_computation_method",
+        "item_ids",
+        "item_ids.result_id",
+        "item_ids.worksheet_id.state",
+        "type_id",
     )
     def _compute_result_id(self):
-        self.result_id = False
-        if self.result_computation_method == "manual":
-            self.result_id = self.manual_result_id
-        elif self.result_computation_method == "auto":
-            self.result_id = self.manual_result_id
+        for record in self:
+            automatic_result = final_result = False
+
+            automatic_result = record._get_automatic_result()
+
+            if self.result_computation_method == "manual":
+                final_result = self.manual_result_id
+            elif self.result_computation_method == "auto":
+                final_result = automatic_result
+
+            record.automatic_result_id = automatic_result
+            record.result_id = final_result
 
     @api.onchange(
         "type_id",
@@ -232,3 +245,18 @@ class RiskAnalysis(models.Model):
         if self.type_id and self.type_id.item_ids:
             for item in self.type_id.item_ids:
                 item._create_risk_analysis_item(self)
+
+    def _get_automatic_result(self):
+        self.ensure_one()
+        localdict = self._get_default_localdict()
+        try:
+            safe_eval(
+                self.type_id.result_python_code,
+                localdict,
+                mode="exec",
+                nocopy=True,
+            )
+            result = localdict["result"]
+        except Exception:
+            result = False
+        return result

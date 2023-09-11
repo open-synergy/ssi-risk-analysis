@@ -58,6 +58,21 @@
                         <field name="model" />
                     </group>
                 </page>
+                <page name="result" string="Results">
+                    <group
+                            name="result_1"
+                            colspan="2"
+                            col="2"
+                            string="Python Code for Result Computation"
+                        >
+                        <field
+                                name="result_python_code"
+                                widget="ace"
+                                colspan="2"
+                                nolabel="1"
+                            />
+                    </group>
+                </page>
             </xpath>
         </data>
     </field>
