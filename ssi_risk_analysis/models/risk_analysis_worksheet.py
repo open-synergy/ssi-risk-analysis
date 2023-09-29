@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models
 from odoo.tools.safe_eval import safe_eval
+from odoo.exceptions import ValidationError
 
 
 class RiskAnalysisWorksheet(models.Model):
@@ -306,3 +307,15 @@ class RiskAnalysisWorksheet(models.Model):
         except Exception:
             result = False
         return result
+
+    # revisi ssi_risk_analysis
+    @api.constrains('item_id')
+    def _check_item_id(self):
+        for record in self:
+            items = self.env["risk_analysis_worksheet"].search([
+                ('item_id', '=', record.item_id.id),
+                ('risk_analysis_id', '=', record.risk_analysis_id.id),
+                ('id', '!=', record.id)
+            ])
+            if items:
+                raise ValidationError("The risk item '%s - %s' is already used." % (record.item_id.name, record.risk_analysis_id.name))
