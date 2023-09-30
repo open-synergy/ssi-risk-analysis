@@ -249,9 +249,9 @@ class RiskAnalysisWorksheet(models.Model):
 
             automatic_result = record._get_automatic_result()
 
-            if self.result_computation_method == "manual":
-                final_result = self.manual_result_id
-            elif self.result_computation_method == "auto":
+            if record.result_computation_method == "manual":
+                final_result = record.manual_result_id
+            elif record.result_computation_method == "auto":
                 final_result = automatic_result
 
             record.automatic_result_id = automatic_result
