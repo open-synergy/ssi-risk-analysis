@@ -31,6 +31,17 @@ class RiskAnalysisType(models.Model):
         default="result = False",
         required=True,
     )
+    conclusion_ids = fields.One2many(
+        string="Risk Analysis Conclusions",
+        comodel_name="risk_analysis_type.conclusion",
+        inverse_name="type_id",
+    )
+    allowed_conclusion_ids = fields.Many2many(
+        string="Allowed Risk Analysis Conclusions",
+        comodel_name="risk_analysis_conclusion",
+        compute="_compute_allowed_conclusion_ids",
+        store=False,
+    )
 
     def _compute_allowed_result_ids(self):
         for record in self:
@@ -38,3 +49,10 @@ class RiskAnalysisType(models.Model):
             for ra_result in record.result_ids:
                 result += ra_result.result_id
             record.allowed_result_ids = result
+
+    def _compute_allowed_conclusion_ids(self):
+        for record in self:
+            result = self.env["risk_analysis_conclusion"]
+            for ra_conclusion in record.conclusion_ids:
+                result += ra_conclusion.conclusion_id
+            record.allowed_conclusion_ids = result

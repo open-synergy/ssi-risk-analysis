@@ -29,6 +29,18 @@
         />
 </record>
 
+<record id="risk_analysis_conclusion_group" model="res.groups">
+    <field name="name">Risk Analysis Conclusion</field>
+    <field
+            name="category_id"
+            ref="ssi_risk_management.risk_management_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
 <record id="risk_analysis_worksheet_type_group" model="res.groups">
     <field name="name">Risk Analysis Worksheet Type</field>
     <field

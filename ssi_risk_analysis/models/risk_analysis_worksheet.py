@@ -198,6 +198,44 @@ class RiskAnalysisWorksheet(models.Model):
         compute="_compute_result_id",
         store=True,
     )
+    need_dissenting_reason = fields.Boolean(
+        string="Need Dissenting Reason",
+        compute="_compute_need_dissenting_reason",
+        store=True,
+    )
+    dissenting_reason = fields.Text(
+        string="Dissenting Reason",
+        readonly=True,
+        states={
+            "open": [
+                ("readonly", False),
+            ],
+        },
+    )
+    allowed_conclusion_ids = fields.Many2many(
+        string="Allowed Risk Analysis Conclusions",
+        related="item_id.allowed_conclusion_ids",
+        store=False,
+    )
+    conclusion_id = fields.Many2one(
+        string="Conclusion",
+        comodel_name="risk_analysis_conclusion",
+        readonly=True,
+        states={
+            "open": [
+                ("readonly", False),
+            ],
+        },
+    )
+    conclusion = fields.Text(
+        string="Conclusion Reasoning",
+        readonly=True,
+        states={
+            "open": [
+                ("readonly", False),
+            ],
+        },
+    )
     state = fields.Selection(
         string="State",
         selection=[
@@ -226,6 +264,17 @@ class RiskAnalysisWorksheet(models.Model):
                 for item in record.risk_analysis_id.item_ids:
                     result += item.item_id
             record.allowed_item_ids = result
+
+    @api.depends(
+        "manual_result_id",
+        "automatic_result_id",
+    )
+    def _compute_need_dissenting_reason(self):
+        for record in self:
+            result = False
+            if record.manual_result_id != record.automatic_result_id:
+                result = True
+            record.need_dissenting_reason = result
 
     @api.depends(
         "item_id",

@@ -86,23 +86,42 @@
                                 force_save="1"
                             />
                     </group>
-                    <group name="item" colspan="4" col="2" string="Result">
-                        <field name="result_computation_method" string="Method" />
-                        <field
-                                name="allowed_result_ids"
-                                widget="many2many_tags"
-                                invisible="1"
-                            />
-                        <field
-                                name="manual_result_id"
-                                domain="[('id','in',allowed_result_ids)]"
-                                string="Manual"
-                                attrs="{'required': [('result_computation_method','=','manual'),('state','=','open')]}"
-                            />
-                        <field name="automatic_result_id" string="Automatic" />
-                        <field name="result_id" string="Final" />
-                    </group>
                 </page>
+            </xpath>
+            <xpath expr="//group[@name='footer_left']" position="inside">
+                <separator string="Result" />
+                <field name="result_computation_method" string="Method" />
+                <field
+                        name="allowed_result_ids"
+                        widget="many2many_tags"
+                        invisible="1"
+                    />
+                <field
+                        name="manual_result_id"
+                        domain="[('id','in',allowed_result_ids)]"
+                        string="Manual"
+                        attrs="{'required': [('result_computation_method','=','manual'),('state','=','open')]}"
+                    />
+                <field name="automatic_result_id" string="Automatic" />
+                <field name="result_id" string="Final" />
+                <field name="need_dissenting_reason" invisible="1" />
+                <field
+                        name="dissenting_reason"
+                        attrs="{'required': [('need_dissenting_reason','=',True),('state','=','open')],'invisible': [('need_dissenting_reason','=',False)]}"
+                    />
+            </xpath>
+            <xpath expr="//group[@name='footer_right']" position="inside">
+                <separator string="Conclusion" />
+                <field
+                        name="allowed_conclusion_ids"
+                        widget="many2many_tags"
+                        invisible="1"
+                    />
+                <field
+                        name="conclusion_id"
+                        domain="[('id','=',allowed_conclusion_ids)]"
+                    />
+                <field name="conclusion" string="Reasoning" />
             </xpath>
         </data>
     </field>
