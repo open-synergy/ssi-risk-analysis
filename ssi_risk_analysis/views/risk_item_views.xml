@@ -52,6 +52,14 @@
                         </tree>
                     </field>
                 </page>
+                <page name="conclusion" string="Conclusions">
+                    <field name="conclusion_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="conclusion_id" />
+                        </tree>
+                    </field>
+                </page>
             </xpath>
         </data>
     </field>

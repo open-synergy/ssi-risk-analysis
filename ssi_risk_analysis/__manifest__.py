@@ -34,6 +34,7 @@
         "menu.xml",
         "views/risk_analysis_type_views.xml",
         "views/risk_analysis_result_views.xml",
+        "views/risk_analysis_conclusion_views.xml",
         "views/risk_item_views.xml",
         "views/risk_analysis_views.xml",
         "views/risk_analysis_worksheet_views.xml",

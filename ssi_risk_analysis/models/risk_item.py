@@ -15,6 +15,11 @@ class RiskItem(models.Model):
         comodel_name="risk_item.result",
         inverse_name="item_id",
     )
+    conclusion_ids = fields.One2many(
+        string="Conclusions",
+        comodel_name="risk_item.conclusion",
+        inverse_name="item_id",
+    )
     method = fields.Selection(
         string="Method",
         selection=[
@@ -29,6 +34,18 @@ class RiskItem(models.Model):
         string="Worksheet Type",
         comodel_name="risk_analysis_worksheet_type",
     )
+    allowed_result_ids = fields.Many2many(
+        string="Allowed Risk Analysis Results",
+        comodel_name="risk_analysis_result",
+        compute="_compute_allowed_result_ids",
+        store=False,
+    )
+    allowed_conclusion_ids = fields.Many2many(
+        string="Allowed Risk Analysis Conclusions",
+        comodel_name="risk_analysis_conclusion",
+        compute="_compute_allowed_conclusion_ids",
+        store=False,
+    )
 
     @api.onchange(
         "method",
@@ -36,16 +53,16 @@ class RiskItem(models.Model):
     def onchange_worksheet_type_id(self):
         self.worksheet_type_id = False
 
-    allowed_result_ids = fields.Many2many(
-        string="Allowed Risk Analysis Results",
-        comodel_name="risk_analysis_result",
-        compute="_compute_allowed_result_ids",
-        store=False,
-    )
-
     def _compute_allowed_result_ids(self):
         for record in self:
             result = self.env["risk_analysis_result"]
             for ra_result in record.result_ids:
                 result += ra_result.result_id
             record.allowed_result_ids = result
+
+    def _compute_allowed_conclusion_ids(self):
+        for record in self:
+            result = self.env["risk_analysis_conclusion"]
+            for ra_conclusion in record.conclusion_ids:
+                result += ra_conclusion.conclusion_id
+            record.allowed_conclusion_ids = result
