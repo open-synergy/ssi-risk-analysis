@@ -52,6 +52,9 @@ class MixinRiskAnalysis(models.AbstractModel):
                 result = record.risk_analysis_id.result_id
             record.risk_analysis_result_id = result
 
+    def onchange_risk_analysis_id(self):
+        self.risk_analysis_id = False
+
     def _get_allowed_risk_analysis_ids_trigger(self):
         result = []
         if self._risk_analysis_partner_field_name:
@@ -62,7 +65,6 @@ class MixinRiskAnalysis(models.AbstractModel):
     def _compute_allowed_risk_analysis_ids(self):
         for record in self:
             result = []
-            record.risk_analysis_id = False
             if self._risk_analysis_partner_field_name and hasattr(
                 record, self._risk_analysis_partner_field_name
             ):
