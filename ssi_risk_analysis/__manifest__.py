@@ -32,6 +32,7 @@
         "data/approval_template_data.xml",
         "data/policy_template_data.xml",
         "menu.xml",
+        "templates/mixin_risk_analysis_templates.xml",
         "views/risk_analysis_type_views.xml",
         "views/risk_analysis_result_views.xml",
         "views/risk_analysis_conclusion_views.xml",
