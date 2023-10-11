@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-ssi_risk_analysis',
+        'odoo14-addon-ssi_risk_analysis_project',
         'odoo14-addon-ssi_risk_analysis_reference_document',
         'odoo14-addon-ssi_risk_analysis_work_log',
         'odoo14-addon-ssi_risk_management',
