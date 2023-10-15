@@ -2,9 +2,9 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0-standalone.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.tools.safe_eval import safe_eval
-from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning as UserError
 
 
 class RiskAnalysisWorksheet(models.Model):
@@ -318,4 +318,13 @@ class RiskAnalysisWorksheet(models.Model):
                 ('id', '!=', record.id)
             ])
             if items:
-                raise ValidationError("The risk item '%s - %s' is already used." % (record.item_id.name, record.risk_analysis_id.name))
+                error_message = _(
+                    """
+                Context: You can not select the same risk item
+                Database ID: %s
+                Problem: Risk item: %s is used
+                Solution: Use another risk item
+                """
+                    % (record.id, record.item_id.name,)
+                )
+                raise UserError(error_message)
