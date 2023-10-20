@@ -25,7 +25,7 @@ class RiskAnalysisTypeResult(models.Model):
         string="Result",
         comodel_name="risk_analysis_result",
         required=True,
-        onldete="restrict",
+        ondelete="restrict",
     )
     quantitative_value = fields.Float(
         string="Quantitative Value",

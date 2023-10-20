@@ -25,7 +25,7 @@ class RiskAnalysisTypeItem(models.Model):
         string="Risk Item",
         comodel_name="risk_item",
         required=True,
-        onldete="restrict",
+        ondelete="restrict",
     )
 
     def _create_risk_analysis_item(self, risk_analysis):
