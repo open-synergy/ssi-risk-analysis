@@ -2,7 +2,8 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0-standalone.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import Warning as UserError
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -355,3 +356,30 @@ class RiskAnalysisWorksheet(models.Model):
         except Exception:
             result = False
         return result
+
+    @api.constrains(
+        "item_id",
+    )
+    def _check_item_id(self):
+        for record in self:
+            items = self.env["risk_analysis_worksheet"].search(
+                [
+                    ("item_id", "=", record.item_id.id),
+                    ("risk_analysis_id", "=", record.risk_analysis_id.id),
+                    ("id", "!=", record.id),
+                ]
+            )
+            if items:
+                error_message = _(
+                    """
+                Context: You cannot select the same Risk Item for each Risk Analysis
+                Database ID: %s
+                Problem: Risk Item: %s is used
+                Solution: Use another Risk Item
+                """
+                    % (
+                        record.id,
+                        record.item_id.name,
+                    )
+                )
+                raise UserError(error_message)
