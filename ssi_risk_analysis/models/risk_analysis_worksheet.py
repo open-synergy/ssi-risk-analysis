@@ -3,8 +3,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0-standalone.html).
 
 from odoo import _, api, fields, models
-from odoo.tools.safe_eval import safe_eval
 from odoo.exceptions import Warning as UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class RiskAnalysisWorksheet(models.Model):
@@ -308,23 +308,29 @@ class RiskAnalysisWorksheet(models.Model):
             result = False
         return result
 
-    # revisi ssi_risk_analysis
-    @api.constrains('item_id')
+    @api.constrains(
+        "item_id",
+    )
     def _check_item_id(self):
         for record in self:
-            items = self.env["risk_analysis_worksheet"].search([
-                ('item_id', '=', record.item_id.id),
-                ('risk_analysis_id', '=', record.risk_analysis_id.id),
-                ('id', '!=', record.id)
-            ])
+            items = self.env["risk_analysis_worksheet"].search(
+                [
+                    ("item_id", "=", record.item_id.id),
+                    ("risk_analysis_id", "=", record.risk_analysis_id.id),
+                    ("id", "!=", record.id),
+                ]
+            )
             if items:
                 error_message = _(
                     """
-                Context: You can not select the same risk item
+                Context: You cannot select the same Risk Item for each Risk Analysis
                 Database ID: %s
-                Problem: Risk item: %s is used
-                Solution: Use another risk item
+                Problem: Risk Item: %s is used
+                Solution: Use another Risk Item
                 """
-                    % (record.id, record.item_id.name,)
+                    % (
+                        record.id,
+                        record.item_id.name,
+                    )
                 )
                 raise UserError(error_message)
