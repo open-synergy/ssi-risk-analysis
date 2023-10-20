@@ -25,5 +25,5 @@ class RiskAnalysisTypeConclusion(models.Model):
         string="Conclusion",
         comodel_name="risk_analysis_conclusion",
         required=True,
-        onldete="restrict",
+        ondelete="restrict",
     )

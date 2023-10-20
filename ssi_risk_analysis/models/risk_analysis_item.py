@@ -14,7 +14,7 @@ class RiskAnalysisItem(models.Model):
         string="# Risk Analysis",
         comodel_name="risk_analysis",
         required=True,
-        onldete="cascade",
+        ondelete="cascade",
     )
     sequence = fields.Integer(
         string="Sequence",
@@ -25,7 +25,7 @@ class RiskAnalysisItem(models.Model):
         string="Risk Item",
         comodel_name="risk_item",
         required=True,
-        onldete="restrict",
+        ondelete="restrict",
     )
     worksheet_id = fields.Many2one(
         string="# Worksheet",
