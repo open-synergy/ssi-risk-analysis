@@ -22,6 +22,7 @@ addon | version | maintainers | summary
 [ssi_risk_analysis_project](ssi_risk_analysis_project/) | 14.0.1.0.0 |  | Risk Analysis + Project Integration
 [ssi_risk_analysis_reference_document](ssi_risk_analysis_reference_document/) | 14.0.1.0.0 |  | Risk Analysis - Reference Document Integration
 [ssi_risk_analysis_work_log](ssi_risk_analysis_work_log/) | 14.0.1.0.0 |  | Risk Analysis + Work Log Integration
+[ssi_risk_analysis_worksheet_related_attachment](ssi_risk_analysis_worksheet_related_attachment/) | 14.0.1.0.0 |  | Risk Analysis Worksheet - Related Attachment Integration
 [ssi_risk_management](ssi_risk_management/) | 14.0.1.0.0 |  | Risk Managemenet
 
 [//]: # (end addons)
