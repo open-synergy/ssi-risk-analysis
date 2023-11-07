@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo14-addon-ssi_risk_analysis',
         'odoo14-addon-ssi_risk_analysis_project',
         'odoo14-addon-ssi_risk_analysis_reference_document',
+        'odoo14-addon-ssi_risk_analysis_related_attachment',
         'odoo14-addon-ssi_risk_analysis_work_log',
         'odoo14-addon-ssi_risk_analysis_worksheet_related_attachment',
         'odoo14-addon-ssi_risk_management',
